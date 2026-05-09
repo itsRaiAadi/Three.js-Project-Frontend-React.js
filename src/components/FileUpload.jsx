@@ -1,19 +1,19 @@
-import { useRef, useState } from 'react';
+import { useRef, useState } from "react";
 
 function FileUpload({ onUpload, uploading }) {
   const [selectedFile, setSelectedFile] = useState(null);
-  const [localError, setLocalError] = useState('');
+  const [localError, setLocalError] = useState("");
   const inputRef = useRef(null);
 
   const handleFileChange = (event) => {
     const file = event.target.files?.[0];
-    setLocalError('');
+    setLocalError("");
 
     if (!file) return;
 
-    if (!file.name.toLowerCase().endsWith('.glb')) {
-      setLocalError('Only .glb files are allowed.');
-      inputRef.current.value = '';
+    if (!file.name.toLowerCase().endsWith(".glb")) {
+      setLocalError("Only .glb files are allowed.");
+      inputRef.current.value = "";
       return;
     }
 
@@ -24,29 +24,38 @@ function FileUpload({ onUpload, uploading }) {
     event.preventDefault();
 
     if (!selectedFile) {
-      setLocalError('Please select a .glb file first.');
+      setLocalError("Please select a .glb file first.");
       return;
     }
 
     await onUpload(selectedFile);
     setSelectedFile(null);
-    inputRef.current.value = '';
+    inputRef.current.value = "";
   };
 
   return (
     <form className="upload-card" onSubmit={handleSubmit}>
       <div>
         <h2>Upload 3D Object</h2>
-        <p className="muted">Upload GLB model files and view them in the browser.</p>
+        <p className="muted">
+          Upload GLB model files and view them in the browser.
+        </p>
       </div>
 
-      <input ref={inputRef} type="file" accept=".glb" onChange={handleFileChange} />
+      <input
+        ref={inputRef}
+        type="file"
+        accept=".glb"
+        onChange={handleFileChange}
+      />
 
-      {selectedFile && <p className="selected-file">Selected: {selectedFile.name}</p>}
+      {selectedFile && (
+        <p className="selected-file">Selected: {selectedFile.name}</p>
+      )}
       {localError && <p className="error-message">{localError}</p>}
 
       <button type="submit" className="btn btn-primary" disabled={uploading}>
-        {uploading ? 'Uploading...' : 'Upload Model'}
+        {uploading ? "Uploading..." : "Upload Model"}
       </button>
     </form>
   );

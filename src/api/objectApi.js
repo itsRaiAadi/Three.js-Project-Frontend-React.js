@@ -1,12 +1,12 @@
-import axiosClient from './axiosClient.js';
+import axiosClient from "./axiosClient.js";
 
 export const uploadObjectApi = async (file) => {
   const formData = new FormData();
-  formData.append('model', file);
+  formData.append("model", file);
 
-  const { data } = await axiosClient.post('/objects', formData, {
+  const { data } = await axiosClient.post("/objects", formData, {
     headers: {
-      'Content-Type': 'multipart/form-data',
+      "Content-Type": "multipart/form-data",
     },
   });
 
@@ -14,7 +14,7 @@ export const uploadObjectApi = async (file) => {
 };
 
 export const getObjectsApi = async () => {
-  const { data } = await axiosClient.get('/objects');
+  const { data } = await axiosClient.get("/objects");
   return data.data;
 };
 
@@ -24,7 +24,9 @@ export const getObjectApi = async (id) => {
 };
 
 export const saveCameraStateApi = async (id, cameraState) => {
-  const { data } = await axiosClient.patch(`/objects/${id}/camera-state`, { cameraState });
+  const { data } = await axiosClient.patch(`/objects/${id}/camera-state`, {
+    cameraState,
+  });
   return data.data;
 };
 

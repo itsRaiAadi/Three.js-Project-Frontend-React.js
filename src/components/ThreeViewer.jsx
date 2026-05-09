@@ -1,14 +1,14 @@
-import { useCallback, useEffect, useRef, useState } from 'react';
-import * as THREE from 'three';
-import { GLTFLoader } from 'three/examples/jsm/loaders/GLTFLoader.js';
-import { OrbitControls } from 'three/examples/jsm/controls/OrbitControls.js';
+import { useCallback, useEffect, useRef, useState } from "react";
+import * as THREE from "three";
+import { GLTFLoader } from "three/examples/jsm/loaders/GLTFLoader.js";
+import { OrbitControls } from "three/examples/jsm/controls/OrbitControls.js";
 
 function ThreeViewer({ modelUrl, initialCameraState, onSaveState }) {
   const containerRef = useRef(null);
   const cameraRef = useRef(null);
   const controlsRef = useRef(null);
   const rendererRef = useRef(null);
-  const [viewerError, setViewerError] = useState('');
+  const [viewerError, setViewerError] = useState("");
 
   const getCameraState = useCallback(() => {
     const camera = cameraRef.current;
@@ -67,7 +67,7 @@ function ThreeViewer({ modelUrl, initialCameraState, onSaveState }) {
     camera.position.set(
       initialCameraState?.position?.x ?? 0,
       initialCameraState?.position?.y ?? 2,
-      initialCameraState?.position?.z ?? 5
+      initialCameraState?.position?.z ?? 5,
     );
     camera.zoom = initialCameraState?.zoom ?? 1;
     camera.updateProjectionMatrix();
@@ -96,7 +96,7 @@ function ThreeViewer({ modelUrl, initialCameraState, onSaveState }) {
     controls.target.set(
       initialCameraState?.target?.x ?? 0,
       initialCameraState?.target?.y ?? 0,
-      initialCameraState?.target?.z ?? 0
+      initialCameraState?.target?.z ?? 0,
     );
     controls.update();
     controlsRef.current = controls;
@@ -128,8 +128,8 @@ function ThreeViewer({ modelUrl, initialCameraState, onSaveState }) {
       },
       undefined,
       () => {
-        setViewerError('Unable to load model. Please verify the GLB file.');
-      }
+        setViewerError("Unable to load model. Please verify the GLB file.");
+      },
     );
 
     const handleResize = () => {
@@ -141,7 +141,7 @@ function ThreeViewer({ modelUrl, initialCameraState, onSaveState }) {
       renderer.setSize(nextWidth, nextHeight);
     };
 
-    window.addEventListener('resize', handleResize);
+    window.addEventListener("resize", handleResize);
 
     const animate = () => {
       controls.update();
@@ -152,7 +152,7 @@ function ThreeViewer({ modelUrl, initialCameraState, onSaveState }) {
     animate();
 
     return () => {
-      window.removeEventListener('resize', handleResize);
+      window.removeEventListener("resize", handleResize);
       cancelAnimationFrame(animationFrameId);
       controls.dispose();
       renderer.dispose();
@@ -165,13 +165,23 @@ function ThreeViewer({ modelUrl, initialCameraState, onSaveState }) {
       <div className="viewer-toolbar">
         <div>
           <h2>3D Viewer</h2>
-          <p className="muted">Use mouse drag to rotate, scroll to zoom, right-drag to pan.</p>
+          <p className="muted">
+            Use mouse drag to rotate, scroll to zoom, right-drag to pan.
+          </p>
         </div>
         <div className="toolbar-actions">
-          <button type="button" className="btn btn-outline" onClick={handleResetView}>
+          <button
+            type="button"
+            className="btn btn-outline"
+            onClick={handleResetView}
+          >
             Reset View
           </button>
-          <button type="button" className="btn btn-primary" onClick={handleSaveState}>
+          <button
+            type="button"
+            className="btn btn-primary"
+            onClick={handleSaveState}
+          >
             Save Camera State
           </button>
         </div>

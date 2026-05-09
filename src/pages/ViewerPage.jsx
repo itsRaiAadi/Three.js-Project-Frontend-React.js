@@ -1,25 +1,25 @@
-import { useEffect, useState } from 'react';
-import { Link, useParams } from 'react-router-dom';
-import ThreeViewer from '../components/ThreeViewer.jsx';
-import { getObjectApi, saveCameraStateApi } from '../api/objectApi.js';
+import { useEffect, useState } from "react";
+import { Link, useParams } from "react-router-dom";
+import ThreeViewer from "../components/ThreeViewer.jsx";
+import { getObjectApi, saveCameraStateApi } from "../api/objectApi.js";
 
 function ViewerPage() {
   const { id } = useParams();
   const [object, setObject] = useState(null);
   const [loading, setLoading] = useState(true);
-  const [message, setMessage] = useState('');
-  const [error, setError] = useState('');
+  const [message, setMessage] = useState("");
+  const [error, setError] = useState("");
 
   useEffect(() => {
     const fetchObject = async () => {
       setLoading(true);
-      setError('');
+      setError("");
 
       try {
         const data = await getObjectApi(id);
         setObject(data.object);
       } catch (err) {
-        setError(err.response?.data?.message || 'Unable to load object');
+        setError(err.response?.data?.message || "Unable to load object");
       } finally {
         setLoading(false);
       }
@@ -29,15 +29,15 @@ function ViewerPage() {
   }, [id]);
 
   const handleSaveState = async (cameraState) => {
-    setMessage('');
-    setError('');
+    setMessage("");
+    setError("");
 
     try {
       const data = await saveCameraStateApi(id, cameraState);
       setObject(data.object);
-      setMessage('Camera state saved successfully.');
+      setMessage("Camera state saved successfully.");
     } catch (err) {
-      setError(err.response?.data?.message || 'Unable to save camera state');
+      setError(err.response?.data?.message || "Unable to save camera state");
     }
   };
 
@@ -73,7 +73,11 @@ function ViewerPage() {
       {message && <p className="success-message">{message}</p>}
       {error && <p className="error-message">{error}</p>}
 
-      <ThreeViewer modelUrl={modelUrl} initialCameraState={object.cameraState} onSaveState={handleSaveState} />
+      <ThreeViewer
+        modelUrl={modelUrl}
+        initialCameraState={object.cameraState}
+        onSaveState={handleSaveState}
+      />
     </div>
   );
 }
